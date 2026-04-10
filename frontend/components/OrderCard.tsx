@@ -73,16 +73,22 @@ export default function OrderCard({ order, onCancel }: { order: Order; onCancel?
       </div>
 
       <div className="flex flex-col gap-2">
-        {order.items.map((item, i) => (
+        {order.items.map((item, i) => {
+          const imageUrl = item.productId?.image?.startsWith("http")
+            ? item.productId.image
+            : `${API_URL}${item.productId?.image}`;
+
+          return (
           <div key={i} className="flex items-center gap-3">
             <div className="relative w-12 h-12 shrink-0 rounded" style={{ backgroundColor: "var(--bg-hover)" }}>
               {item.productId?.image ? (
                 <Image
-                  src={`${API_URL}${item.productId.image}`}
+                  src={imageUrl}
                   alt={item.productId.name}
                   fill
                   className="object-contain p-0.5"
                   sizes="48px"
+                  unoptimized
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[10px] text-center" style={{ color: "var(--text-muted)" }}>
@@ -99,7 +105,8 @@ export default function OrderCard({ order, onCancel }: { order: Order; onCancel?
               </p>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="flex items-center justify-between pt-2 border-t" style={{ borderColor: "var(--border-light)" }}>
