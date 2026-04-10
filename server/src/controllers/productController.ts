@@ -11,7 +11,7 @@ export const createProduct = async (req: AuthRequest, res: Response, next: NextF
       return;
     }
     
-    const image = `/uploads/${req.file.filename}`;
+    const image = req.file.path;
     const parsedCategories = categories ? JSON.parse(categories) : undefined;
     
     const product = await productService.createProduct({ 
@@ -60,7 +60,7 @@ export const updateProduct = async (req: AuthRequest, res: Response, next: NextF
     const { id } = req.params;
     const { name, description, price, stock, categories } = req.body;
     
-    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const image = req.file ? req.file.path : undefined;
     const parsedCategories = categories ? JSON.parse(categories) : undefined;
     
     const product = await productService.updateProduct(id, { 
