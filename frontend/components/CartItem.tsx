@@ -25,6 +25,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function CartItem({ item, onUpdateQuantity, onRemove }: Props) {
   const { productId: product, quantity, unitPrice } = item;
+  const imageUrl = product.image?.startsWith("http")
+    ? product.image
+    : `${API_URL}${product.image}`;
 
   return (
     <div
@@ -33,11 +36,12 @@ export default function CartItem({ item, onUpdateQuantity, onRemove }: Props) {
     >
       <div className="relative w-24 h-24 shrink-0 rounded" style={{ backgroundColor: "var(--bg-hover)" }}>
         <Image
-          src={`${API_URL}${product.image}`}
+          src={imageUrl}
           alt={product.name}
           fill
           className="object-contain p-1"
           sizes="96px"
+          unoptimized
         />
       </div>
 

@@ -22,6 +22,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function ProductCard({ product, onAddToCart }: Props) {
   const outOfStock = product.stock <= 0;
+  const imageUrl = product.image?.startsWith("http")
+    ? product.image
+    : `${API_URL}${product.image}`;
 
   return (
     <div
@@ -30,11 +33,12 @@ export default function ProductCard({ product, onAddToCart }: Props) {
     >
       <div className="relative w-full aspect-square" style={{ backgroundColor: "var(--bg-hover)" }}>
         <Image
-          src={`${API_URL}${product.image}`}
+          src={imageUrl}
           alt={product.name}
           fill
           className="object-contain p-2"
           sizes="(max-width: 768px) 50vw, 25vw"
+          unoptimized
         />
       </div>
 
